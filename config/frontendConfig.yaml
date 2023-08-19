@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-service-config
+  namespace: micro-service-shop
+data:
+  PORT: "8080"
+  SHIPPING_SERVICE_ADDR: "shipping-service-svc:50051"
+  PRODUCT_CATALOG_SERVICE_ADDR: "catalog-service-svc:3550"
+  CART_SERVICE_ADDR: "cart-service-svc:7070"
+  CURRENCY_SERVICE_ADDR: "currency-service-svc:7000"
+  EMAIL_SERVICE_ADDR: "mail-service-svc:5000"
+  PAYMENT_SERVICE_ADDR: "payment-service-svc:50051"
+  RECOMMENDATION_SERVICE_ADDR: "recommendation-service-svc:8080"
+  CHECKOUT_SERVICE_ADDR: "checkout-service-svc:5050"
+  AD_SERVICE_ADDR: "adservice-service-svc:9555"

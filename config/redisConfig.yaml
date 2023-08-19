@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-service-config
+  namespace: micro-service-shop
+data:
+  PORT: "6379"

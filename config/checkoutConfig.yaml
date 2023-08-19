@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checkout-service-config
+  namespace: micro-service-shop
+data:
+  PORT: "5050"
+  SHIPPING_SERVICE_ADDR: "shipping-service-svc:50051"
+  PRODUCT_CATALOG_SERVICE_ADDR: "catalog-service-svc:3550"
+  CART_SERVICE_ADDR: "cart-service-svc:7070"
+  CURRENCY_SERVICE_ADDR: "currency-service-svc:7000"
+  EMAIL_SERVICE_ADDR: "mail-service-svc:5000"
+  PAYMENT_SERVICE_ADDR: "payment-service-svc:50051"

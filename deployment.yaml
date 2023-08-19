@@ -1,0 +1,424 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-service-deploy
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mail-service
+  template:
+    metadata:
+      labels:
+        app: mail-service
+    spec:
+      containers:
+        - name: mail-service-img
+          image: gcr.io/google-samples/microservices-demo/emailservice:v0.2.3
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: mail-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: mail-service
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service-deploy
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service-img
+          image: gcr.io/google-samples/microservices-demo/paymentservice:v0.2.3
+          ports:
+            - containerPort: 50051
+          envFrom:
+            - configMapRef:
+                name: payment-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: payment-service
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: 50051
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping-service-deploy
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipping-service
+  template:
+    metadata:
+      labels:
+        app: shipping-service
+    spec:
+      containers:
+        - name: shipping-service-img
+          image: gcr.io/google-samples/microservices-demo/shippingservice:v0.2.3
+          ports:
+            - containerPort: 50051
+          envFrom:
+            - configMapRef:
+                name: shipping-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: shipping-service
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: 50051
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-service-deployment
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currency-service
+  template:
+    metadata:
+      labels:
+        app: currency-service
+    spec:
+      containers:
+        - name: currency-service-img
+          image: gcr.io/google-samples/microservices-demo/currencyservice:v0.2.3
+          ports:
+            - containerPort: 7000
+          envFrom:
+            - configMapRef:
+                name: currency-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: currency-service
+  ports:
+    - protocol: TCP
+      port: 7000
+      targetPort: 7000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-service-deployment
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkout-service
+  template:
+    metadata:
+      labels:
+        app: checkout-service
+    spec:
+      containers:
+        - name: checkout-service-img
+          image: gcr.io/google-samples/microservices-demo/checkoutservice:v0.2.3
+          ports:
+            - containerPort: 5050
+          envFrom:
+            - configMapRef:
+                name: checkout-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: checkout-service
+  ports:
+    - protocol: TCP
+      port: 5050
+      targetPort: 5050
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service-deployment
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-service
+  template:
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+        - name: productcatalogservice
+          image: gcr.io/google-samples/microservices-demo/productcatalogservice:v0.2.3
+          ports:
+            - containerPort: 3550
+          envFrom:
+            - configMapRef:
+                name: catalog-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: catalog-service
+  ports:
+    - protocol: TCP
+      port: 3550
+      targetPort: 3550
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-service-deploy
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-service
+  template:
+    metadata:
+      labels:
+        app: redis-service
+    spec:
+      containers:
+        - name: redis-service-img
+          image: redis
+          ports:
+            - containerPort: 6379
+          envFrom:
+            - configMapRef:
+                name: redis-service-config
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: redis-service
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-service-deployment
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart-service
+  template:
+    metadata:
+      labels:
+        app: cart-service
+    spec:
+      containers:
+        - name: cartservice
+          image: gcr.io/google-samples/microservices-demo/cartservice:v0.2.3
+          ports:
+            - containerPort: 7070
+          envFrom:
+            - configMapRef:
+                name: cart-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: cart-service
+  ports:
+    - protocol: TCP
+      port: 7070
+      targetPort: 7070
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-service-deployment
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommendation-service
+  template:
+    metadata:
+      labels:
+        app: recommendation-service
+    spec:
+      containers:
+        - name: recommendation-service-img
+          image: gcr.io/google-samples/microservices-demo/recommendationservice:v0.2.3
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: recommendation-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendation-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: recommendation-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adservice-service-deploy
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adservice-service
+  template:
+    metadata:
+      labels:
+        app: adservice-service
+    spec:
+      containers:
+        - name: adservice
+          image: gcr.io/google-samples/microservices-demo/adservice:v0.2.3
+          ports:
+            - containerPort: 9555
+          envFrom:
+            - configMapRef:
+                name: adservice-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adservice-service-svc
+  namespace: micro-service-shop
+spec:
+  selector:
+    app: adservice-service
+  ports:
+    - protocol: TCP
+      port: 9555
+      targetPort: 9555
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-service-deployment
+  namespace: micro-service-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-service
+  template:
+    metadata:
+      labels:
+        app: frontend-service
+    spec:
+      containers:
+        - name: frontend
+          image: gcr.io/google-samples/microservices-demo/frontend:v0.2.3
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: frontend-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service-svc
+  namespace: micro-service-shop
+spec:
+  type: NodePort
+  selector:
+    app: frontend-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30007

@@ -76,17 +76,16 @@ The e-commerce microservices project includes the following services:
 Each microservice is deployed as a Kubernetes Deployment. To deploy a microservice, you need to run config first , use the following command:
 
 ```bash
-   chmod +x scripts/config.sh
-   ./scripts/config.sh 
+chmod +x scripts/config.sh
+./scripts/config.sh 
 ```
 
 Each microservice is deployed as a Kubernetes Deployment. To deploy a microservices, use the following command:
 
 ```bash
-   chmod +x scripts/run.sh
-   ./scripts/run.sh 
+chmod +x scripts/run.sh
+./scripts/run.sh 
 ```
-
 
 ## Configuration
 
